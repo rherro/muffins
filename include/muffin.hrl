@@ -1,0 +1,1 @@
+-record(muffin, {id, type, owner, purchaser}).
