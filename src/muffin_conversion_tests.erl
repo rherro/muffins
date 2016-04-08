@@ -4,7 +4,7 @@
 
 -include("include/muffin.hrl").
 
--import(muffin_conversion, [convert_json_to_record/1]).
+-import(muffin_conversion, [convert_json_to_record/1, convert_record_to_json/1]).
 
 convert_muffin_json_test_() ->
   Json = <<"{\"muffin\":{\"type\":\"pistachio\",\"owner\":\"grant\",\"purchaser\":\"lulu\"}}">>,
@@ -14,6 +14,15 @@ convert_muffin_json_test_() ->
     {"convert owner field", ?_assertEqual(<<"grant">>, Muffin#muffin.owner)},
     {"convert purchaser field", ?_assertEqual(<<"lulu">>, Muffin#muffin.purchaser)},
     {"id defaults to undefined", ?_assertEqual(undefined, Muffin#muffin.id)}
+  ].
+
+convert_muffin_record_to_json_test_() ->
+  MuffinRecord = #muffin{id=379, type = <<"chocolate chip">>, owner = <<"Dr. Mark">>, purchaser = <<"Emily">>},
+  ExpectedResult = <<"{\"muffin\":{\"id\":379}}">>,
+  [
+    % {"json has id", ?_assertEqual(<<"{\"muffin\":{\"id\":379}}">>, convert_record_to_json(MuffinRecord))},
+    % {"json has id and type", ?_assertEqual(<<"{\"muffin\":{\"id\":379,\"type\":\"chocolate chip\"}}">>, convert_record_to_json(MuffinRecord))},
+    {"json has id and type and owner", ?_assertEqual(<<"{\"muffin\":{\"id\":379,\"type\":\"chocolate chip\",\"owner\":\"Dr. Mark\"}}">>, convert_record_to_json(MuffinRecord))}
   ].
 
 
