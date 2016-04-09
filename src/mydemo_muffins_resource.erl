@@ -25,7 +25,7 @@ create_path(RequestData, Context) ->
   {integer_to_list(muffin_gen_server:get_next_muffin_id()), RequestData, Context}.
 
 content_types_accepted(RequestData, Context) ->
-  {[{"text/html", create_muffin}], RequestData, Context}.
+  {[{"application/json", create_muffin}], RequestData, Context}.
 
 create_muffin(RequestData, Context) ->
   muffin_gen_server:create_muffin(wrq:req_body(RequestData)),

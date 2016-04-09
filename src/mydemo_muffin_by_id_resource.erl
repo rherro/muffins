@@ -1,5 +1,6 @@
 -module(mydemo_muffin_by_id_resource).
 -export([init/1,
+         malformed_request/2,
          to_html/2,
          allowed_methods/2,
          delete_resource/2
@@ -9,6 +10,10 @@
 
 init(Context) ->
   {{trace, "/tmp"}, Context}.
+
+malformed_request(RequestData, Context) ->
+  MuffinId = wrq:path_info(muffin_id, RequestData),
+  {re:run(MuffinId, element(2,re:compile("^\\d+$"))) == nomatch, RequestData, Context}.
 
 to_html(RequestData, Context) ->
   MuffinId = list_to_integer(wrq:path_info(muffin_id, RequestData)),
